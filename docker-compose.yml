@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: fixlane-db
+    environment:
+      POSTGRES_DB: fixlane
+      POSTGRES_USER: fixlane
+      POSTGRES_PASSWORD: fixlanepassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: fixlane-backend
+    environment:
+      DATABASE_URL: jdbc:postgresql://db:5432/fixlane
+      DB_USER: fixlane
+      DB_PASS: fixlanepassword
+      JWT_SECRET: c2VjdXJla2V5LXN1cGVyLXNlY3JldC1qd3Qta2V5LTMyLWJ5dGVzIQ==
+      CORS_ORIGIN: http://localhost:5173
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: fixlane-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:

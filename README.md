@@ -6,7 +6,7 @@
 
 ---
 
-## 📌 Live Demo & Credentials
+##  Live Demo & Credentials
 
 | Role | Email | Password | Permissions Summary |
 |---|---|---|---|
@@ -20,7 +20,7 @@
 
 ---
 
-## 🏛️ Architecture & System Design
+##  Architecture & System Design
 
 ```mermaid
 flowchart TD
@@ -55,7 +55,7 @@ flowchart TD
 
 ---
 
-## 🎨 Design System & Tokens
+##  Design System & Tokens
 
 Fixlane uses a calm, precision engineering-grade aesthetic inspired by Linear and refined devtools.
 
@@ -71,23 +71,23 @@ Fixlane uses a calm, precision engineering-grade aesthetic inspired by Linear an
 
 ---
 
-## 🔒 Permissions Matrix
+##  Permissions Matrix
 
 Method-level authorization is enforced on the server via `SecurityConfig` and service assertions:
 
 | Action | Admin | Manager | Developer |
 |---|:---:|:---:|:---:|
-| **Create projects** | ✅ Yes | ✅ Yes | ❌ No (403) |
-| **Add / remove members** | ✅ Yes | ✅ Yes | ❌ No (403) |
-| **Create issues** | ✅ Yes | ✅ Yes | ✅ Yes |
-| **Assign issues** | ✅ Yes | ✅ Yes | 👤 Self only |
-| **Move issues on Kanban board** | ✅ Yes | ✅ Yes | 📋 Assigned only |
-| **Edit / delete issues** | ✅ Yes | ✅ Yes | ✍️ Reporter only |
-| **Change member roles** | ✅ Yes | ❌ No (403) | ❌ No (403) |
+| **Create projects** | Yes | Yes | No (403) |
+| **Add / remove members** | Yes | Yes | No (403) |
+| **Create issues** | Yes | Yes | Yes |
+| **Assign issues** | Yes | Yes | Self only |
+| **Move issues on Kanban board** | Yes | Yes | Assigned only |
+| **Edit / delete issues** | Yes | Yes | Reporter only |
+| **Change member roles** | Yes | No (403) | No (403) |
 
 ---
 
-## 🚀 Quick Start Guide
+##  Quick Start Guide
 
 ### Option 1: Docker Compose (Full Stack in 1 Command)
 
@@ -136,7 +136,7 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
-## 📑 REST API Documentation
+## REST API Documentation
 
 All endpoints are prefixed with `/api/v1` and return JSON. Interactive Swagger UI is available at `/swagger-ui.html`.
 
@@ -192,7 +192,7 @@ All endpoints are prefixed with `/api/v1` and return JSON. Interactive Swagger U
 
 ---
 
-## 🧪 Testing
+## Testing
 
 The repository contains unit tests, Spring WebMvc controller slice tests, and service tests:
 
@@ -209,7 +209,7 @@ pnpm run lint
 
 ---
 
-## 🚢 Production Deployment
+## Production Deployment
 
 ### Backend (Render / Railway)
 1. Fork or push this repository to GitHub.
@@ -234,5 +234,5 @@ pnpm run lint
 
 ---
 
-## 📄 License
+## License
 MIT License. Built for high-velocity software engineering teams.

@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.time.OffsetDateTime;
 import java.util.Base64;
@@ -41,8 +42,7 @@ public class JwtService {
 
     private SecretKey getSigningKey() {
         byte[] keyBytes;
-        // Pad secret to at least 32 bytes for HMAC-SHA256
-        byte[] secretBytes = secret.getBytes();
+        byte[] secretBytes = secret.getBytes(StandardCharsets.UTF_8);
         if (secretBytes.length < 32) {
             keyBytes = new byte[32];
             System.arraycopy(secretBytes, 0, keyBytes, 0, secretBytes.length);

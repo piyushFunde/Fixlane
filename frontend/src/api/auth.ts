@@ -1,5 +1,4 @@
 import api, { setAccessToken } from './axios';
-import { REFRESH_TOKEN_KEY } from '../lib/constants';
 
 export interface UserDto {
   id: string;
@@ -34,9 +33,7 @@ export const authApi = {
     if (res.data.accessToken) {
       setAccessToken(res.data.accessToken);
     }
-    if (res.data.refreshToken) {
-      localStorage.setItem(REFRESH_TOKEN_KEY, res.data.refreshToken);
-    }
+    // Refresh token is stored in httpOnly cookie by the server — do not store in localStorage
     return res.data;
   },
 
@@ -45,34 +42,26 @@ export const authApi = {
     if (res.data.accessToken) {
       setAccessToken(res.data.accessToken);
     }
-    if (res.data.refreshToken) {
-      localStorage.setItem(REFRESH_TOKEN_KEY, res.data.refreshToken);
-    }
+    // Refresh token is stored in httpOnly cookie by the server — do not store in localStorage
     return res.data;
   },
 
-  async refresh(refreshToken: string): Promise<AuthResponse> {
-    const res = await api.post<AuthResponse>('/auth/refresh', { refreshToken });
+  async refresh(): Promise<AuthResponse> {
+    // No body needed — refresh token is sent automatically via httpOnly cookie
+    const res = await api.post<AuthResponse>('/auth/refresh');
     if (res.data.accessToken) {
       setAccessToken(res.data.accessToken);
-    }
-    if (res.data.refreshToken) {
-      localStorage.setItem(REFRESH_TOKEN_KEY, res.data.refreshToken);
     }
     return res.data;
   },
 
   async logout(): Promise<void> {
     try {
-      const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
-      if (refreshToken) {
-        await api.post('/auth/logout', { refreshToken });
-      }
+      await api.post('/auth/logout');
     } catch {
       // Ignore error on logout
     } finally {
       setAccessToken(null);
-      localStorage.removeItem(REFRESH_TOKEN_KEY);
     }
   },
 

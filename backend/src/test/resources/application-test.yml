@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:tc:postgresql:16-alpine:///fixlane_test
-    username: test
-    password: test
+    username: ${TEST_DB_USER:test}
+    password: ${TEST_DB_PASS:test}
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
   jpa:
     hibernate:

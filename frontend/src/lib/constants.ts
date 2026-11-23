@@ -28,5 +28,4 @@ export const STATUS_LABELS: Record<string, string> = {
   DONE: 'Done',
 };
 
-export const REFRESH_TOKEN_KEY = 'fixlane_refresh';
 export const APP_NAME = 'Fixlane';

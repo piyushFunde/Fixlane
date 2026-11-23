@@ -1,6 +1,7 @@
 package com.fixlane.attachment;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
@@ -39,7 +41,10 @@ public class AttachmentController {
         if (attachment.getContentType() != null) {
             try {
                 mediaType = MediaType.parseMediaType(attachment.getContentType());
-            } catch (Exception ignored) {}
+            } catch (IllegalArgumentException e) {
+                log.warn("Invalid content type '{}' for attachment {}, falling back to octet-stream",
+                        attachment.getContentType(), id, e);
+            }
         }
 
         return ResponseEntity.ok()

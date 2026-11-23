@@ -3,6 +3,7 @@ package com.fixlane.user;
 import com.fixlane.auth.AuthService;
 import com.fixlane.auth.UserDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
+    @Value("${app.invited.default-password}")
+    private String invitedDefaultPassword;
 
     private final UserRepository userRepository;
     private final AuthService authService;
@@ -51,11 +55,10 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "User with this email already exists");
         }
 
-        // Default password for invited user: Dev12345!
         User user = User.builder()
                 .fullName(request.getFullName())
                 .email(request.getEmail())
-                .passwordHash(passwordEncoder.encode("Dev12345!"))
+                .passwordHash(passwordEncoder.encode(invitedDefaultPassword))
                 .role(request.getRole() != null ? request.getRole() : UserRole.DEVELOPER)
                 .status(UserStatus.INVITED)
                 .build();

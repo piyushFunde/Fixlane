@@ -2,7 +2,6 @@ import React, { createContext, useState, useEffect, useCallback } from 'react';
 import type { UserDto, LoginRequest, RegisterRequest } from '../api/auth';
 import { authApi } from '../api/auth';
 import { setAccessToken } from '../api/axios';
-import { REFRESH_TOKEN_KEY } from '../lib/constants';
 
 export interface AuthContextType {
   user: UserDto | null;
@@ -22,19 +21,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const refreshSession = useCallback(async () => {
-    const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
-    if (!refreshToken) {
-      setIsLoading(false);
-      return;
-    }
-
+    // No localStorage check needed — refresh token is in httpOnly cookie
     try {
-      const response = await authApi.refresh(refreshToken);
+      const response = await authApi.refresh();
       setToken(response.accessToken);
       setAccessToken(response.accessToken);
       setUser(response.user);
     } catch {
-      localStorage.removeItem(REFRESH_TOKEN_KEY);
       setToken(null);
       setAccessToken(null);
       setUser(null);

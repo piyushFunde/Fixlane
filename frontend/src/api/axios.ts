@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { REFRESH_TOKEN_KEY } from '../lib/constants';
 import { notify } from '../components/ui/Toast';
 
 let accessToken: string | null = null;
@@ -33,6 +32,8 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  // Required so the browser sends the httpOnly refresh token cookie cross-origin
+  withCredentials: true,
 });
 
 api.interceptors.request.use((config) => {
@@ -43,14 +44,17 @@ api.interceptors.request.use((config) => {
 });
 
 api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    // Handle 401 refresh token flow
-    if (error.response?.status === 401 && !originalRequest._retry && !originalRequest.url?.includes('/auth/login') && !originalRequest.url?.includes('/auth/register')) {
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url?.includes('/auth/login') &&
+      !originalRequest.url?.includes('/auth/register') &&
+      !originalRequest.url?.includes('/auth/refresh')
+    ) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
@@ -63,31 +67,21 @@ api.interceptors.response.use(
       originalRequest._retry = true;
       isRefreshing = true;
 
-      const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
-      if (!refreshToken) {
-        isRefreshing = false;
-        processQueue(error, null);
-        window.location.href = '/login';
-        return Promise.reject(error);
-      }
-
       try {
+        // No body needed — httpOnly cookie is sent automatically
         const { data } = await axios.post(
           `${import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1'}/auth/refresh`,
-          { refreshToken }
+          {},
+          { withCredentials: true }
         );
         const newToken = data.accessToken;
         setAccessToken(newToken);
-        if (data.refreshToken) {
-          localStorage.setItem(REFRESH_TOKEN_KEY, data.refreshToken);
-        }
         processQueue(null, newToken);
         originalRequest.headers.Authorization = `Bearer ${newToken}`;
         return api(originalRequest);
       } catch (refreshError) {
         processQueue(refreshError, null);
         setAccessToken(null);
-        localStorage.removeItem(REFRESH_TOKEN_KEY);
         window.location.href = '/login';
         return Promise.reject(refreshError);
       } finally {
@@ -95,13 +89,11 @@ api.interceptors.response.use(
       }
     }
 
-    // Trigger toast error notification for API errors
     const errorMsg =
       error.response?.data?.message ||
       error.response?.data?.error ||
       (error.response?.status === 403 ? 'Access forbidden' : error.message || 'Something went wrong');
-    
-    // Don't show toast for 401 refresh checks or auth me checks on page load
+
     if (error.response?.status !== 401 && !originalRequest?.url?.includes('/auth/me')) {
       notify(errorMsg, 'error');
     }

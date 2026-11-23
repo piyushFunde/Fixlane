@@ -5,9 +5,9 @@ services:
     image: postgres:16-alpine
     container_name: fixlane-db
     environment:
-      POSTGRES_DB: fixlane
-      POSTGRES_USER: fixlane
-      POSTGRES_PASSWORD: fixlanepassword
+      POSTGRES_DB: ${POSTGRES_DB:-fixlane}
+      POSTGRES_USER: ${POSTGRES_USER:-fixlane}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
     ports:
       - "5432:5432"
     volumes:
@@ -19,11 +19,12 @@ services:
       dockerfile: Dockerfile
     container_name: fixlane-backend
     environment:
-      DATABASE_URL: jdbc:postgresql://db:5432/fixlane
-      DB_USER: fixlane
-      DB_PASS: fixlanepassword
-      JWT_SECRET: c2VjdXJla2V5LXN1cGVyLXNlY3JldC1qd3Qta2V5LTMyLWJ5dGVzIQ==
-      CORS_ORIGIN: http://localhost:5173
+      DATABASE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-fixlane}
+      DB_USER: ${POSTGRES_USER:-fixlane}
+      DB_PASS: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:5173}
+      INVITED_DEFAULT_PASSWORD: ${INVITED_DEFAULT_PASSWORD:?INVITED_DEFAULT_PASSWORD is required}
     ports:
       - "8080:8080"
     depends_on:

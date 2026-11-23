@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -48,7 +49,7 @@ public class ProjectService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Developers cannot create projects");
         }
 
-        if (projectRepository.existsByKey(request.getKey().toUpperCase())) {
+        if (projectRepository.existsByKey(request.getKey().toUpperCase(Locale.ROOT))) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Project key already exists");
         }
 
@@ -62,7 +63,7 @@ public class ProjectService {
 
         Project project = Project.builder()
                 .name(request.getName())
-                .key(request.getKey().toUpperCase())
+                .key(request.getKey().toUpperCase(Locale.ROOT))
                 .description(request.getDescription())
                 .lead(lead)
                 .issueCounter(0)

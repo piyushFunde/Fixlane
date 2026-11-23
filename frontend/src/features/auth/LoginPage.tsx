@@ -157,7 +157,7 @@ export const LoginPage: React.FC = () => {
                   id="password"
                   type={showPassword ? 'text' : 'password'}
                   autoComplete="current-password"
-                  placeholder="••••••••"
+                  placeholder="Enter your password"
                   className={`w-full min-h-[48px] px-3.5 py-2.5 pr-12 bg-surface text-ink text-base rounded-input border transition-colors placeholder:text-muted/60 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
                     errors.password ? 'border-danger focus:ring-danger' : 'border-input-border focus:border-primary'
                   }`}

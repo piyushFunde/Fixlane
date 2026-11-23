@@ -2,6 +2,7 @@ package com.fixlane.common;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -14,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -61,18 +63,27 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleGeneral(Exception ex, HttpServletRequest request) {
+        log.error("Unhandled exception on {}", sanitize(request.getRequestURI()), ex);
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred", request);
     }
 
     private ResponseEntity<ApiError> buildResponse(HttpStatus status, String message,
                                                     HttpServletRequest request) {
+        // Never reflect user-controlled input in error responses (XSS prevention)
+        String safeMessage = (status.is5xxServerError()) ? status.getReasonPhrase() : message;
         ApiError error = ApiError.builder()
                 .timestamp(OffsetDateTime.now())
                 .status(status.value())
                 .error(status.getReasonPhrase())
-                .message(message)
-                .path(request.getRequestURI())
+                .message(safeMessage)
+                .path(sanitize(request.getRequestURI()))
                 .build();
         return ResponseEntity.status(status).body(error);
+    }
+
+    /** Strip CRLF characters to prevent log injection and response splitting. */
+    private static String sanitize(String value) {
+        if (value == null) return "";
+        return value.replaceAll("[\r\n]", "");
     }
 }

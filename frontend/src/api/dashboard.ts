@@ -1,5 +1,5 @@
 import api from './axios';
-import { IssueDto } from './issues';
+import type { IssueDto } from './issues';
 
 export interface ActivityItem {
   id: string;

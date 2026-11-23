@@ -9,7 +9,7 @@ import { Avatar } from '../../components/ui/Avatar';
 import { Skeleton } from '../../components/ui/Skeleton';
 import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
-import { projectsApi, ProjectDto } from '../../api/projects';
+import { projectsApi, type ProjectDto } from '../../api/projects';
 
 export const ProjectsPage: React.FC = () => {
   const { user } = useAuth();

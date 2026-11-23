@@ -1,5 +1,5 @@
 import api from './axios';
-import { UserDto } from './auth';
+import type { UserDto } from './auth';
 
 export interface CommentDto {
   id: string;

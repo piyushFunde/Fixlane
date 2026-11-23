@@ -2,7 +2,7 @@ import React from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useNavigate } from 'react-router-dom';
-import { IssueDto, IssueStatus } from '../../api/issues';
+import type { IssueDto, IssueStatus } from '../../api/issues';
 import { Pill } from '../../components/ui/Pill';
 import { Avatar } from '../../components/ui/Avatar';
 import { cn } from '../../lib/utils';

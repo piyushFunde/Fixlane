@@ -1,5 +1,5 @@
 import api from './axios';
-import { UserDto } from './auth';
+import type { UserDto } from './auth';
 
 export type IssuePriority = 'HIGH' | 'MEDIUM' | 'LOW';
 export type IssueStatus = 'TODO' | 'IN_PROGRESS' | 'DONE';

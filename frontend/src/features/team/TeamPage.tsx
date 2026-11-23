@@ -7,7 +7,7 @@ import { Input } from '../../components/ui/Input';
 import { Skeleton } from '../../components/ui/Skeleton';
 import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
-import { usersApi, UserDto } from '../../api/users';
+import { usersApi, type UserDto } from '../../api/users';
 
 export const TeamPage: React.FC = () => {
   const { user: currentUser } = useAuth();

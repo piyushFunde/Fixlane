@@ -8,7 +8,7 @@ import { Avatar } from '../../components/ui/Avatar';
 import { Button } from '../../components/ui/Button';
 import { Skeleton } from '../../components/ui/Skeleton';
 import { useAuth } from '../../hooks/useAuth';
-import { dashboardApi, DashboardSummaryDto } from '../../api/dashboard';
+import { dashboardApi, type DashboardSummaryDto } from '../../api/dashboard';
 import { getGreeting, formatDate, timeAgo } from '../../lib/utils';
 
 export const DashboardPage: React.FC = () => {
@@ -124,7 +124,7 @@ export const DashboardPage: React.FC = () => {
             },
           ],
         };
-      },
+      }
     },
   });
 

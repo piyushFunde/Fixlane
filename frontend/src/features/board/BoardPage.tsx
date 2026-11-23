@@ -8,9 +8,9 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-  DragStartEvent,
-  DragEndEvent,
-  DragOverEvent,
+  type DragStartEvent,
+  type DragEndEvent,
+  type DragOverEvent,
 } from '@dnd-kit/core';
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -22,8 +22,8 @@ import { Button } from '../../components/ui/Button';
 import { Skeleton } from '../../components/ui/Skeleton';
 import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
-import { issuesApi, IssueDto, IssueStatus } from '../../api/issues';
-import { projectsApi, ProjectDto } from '../../api/projects';
+import { issuesApi, type IssueDto, type IssueStatus } from '../../api/issues';
+import { projectsApi, type ProjectDto } from '../../api/projects';
 
 export const BoardPage: React.FC = () => {
   const { id: projectId } = useParams<{ id: string }>();

@@ -1,6 +1,5 @@
 package com.fixlane.project;
 
-import com.fixlane.common.AuditEntity;
 import com.fixlane.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProjectMember extends AuditEntity {
+public class ProjectMember {
 
     @EmbeddedId
     private ProjectMemberId id;

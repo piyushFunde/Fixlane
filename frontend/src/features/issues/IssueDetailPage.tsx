@@ -10,9 +10,9 @@ import { Skeleton } from '../../components/ui/Skeleton';
 import { ConfirmBanner } from '../../components/ui/ConfirmBanner';
 import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
-import { issuesApi, IssueDto, IssuePriority, IssueStatus } from '../../api/issues';
-import { commentsApi, CommentDto } from '../../api/comments';
-import { attachmentsApi, AttachmentDto } from '../../api/attachments';
+import { issuesApi, type IssueDto, type IssuePriority, type IssueStatus } from '../../api/issues';
+import { commentsApi, type CommentDto } from '../../api/comments';
+import { attachmentsApi, type AttachmentDto } from '../../api/attachments';
 import { projectsApi } from '../../api/projects';
 import { formatDate, timeAgo } from '../../lib/utils';
 

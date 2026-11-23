@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react';
-import { UserDto, LoginRequest, RegisterRequest, authApi } from '../api/auth';
+import type { UserDto, LoginRequest, RegisterRequest } from '../api/auth';
+import { authApi } from '../api/auth';
 import { setAccessToken } from '../api/axios';
 import { REFRESH_TOKEN_KEY } from '../lib/constants';
 

@@ -10,9 +10,9 @@ import { Input } from '../../components/ui/Input';
 import { Pill } from '../../components/ui/Pill';
 import { Avatar } from '../../components/ui/Avatar';
 import { useToast } from '../../hooks/useToast';
-import { projectsApi, ProjectDto } from '../../api/projects';
+import { projectsApi, type ProjectDto } from '../../api/projects';
 import { issuesApi } from '../../api/issues';
-import { usersApi, UserDto } from '../../api/users';
+import { usersApi, type UserDto } from '../../api/users';
 
 const schema = z.object({
   projectId: z.string().min(1, 'Select a project'),
@@ -78,7 +78,8 @@ export const CreateIssuePage: React.FC = () => {
 
   const createMutation = useMutation({
     mutationFn: (data: FormData) =>
-      issuesApi.create(data.projectId, {
+      issuesApi.create({
+        projectId: data.projectId,
         title: data.title,
         description: data.description,
         priority: data.priority,

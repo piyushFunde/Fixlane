@@ -1,8 +1,8 @@
 # Fixlane
 
-> **Enterprise-Grade Issue Tracking System**  
-> *Engineered for Velocity — Strict Role-Based Governance, Zero Bloat.*  
-> Built with Java 17, Spring Boot 3.2, PostgreSQL, Flyway, React 18, Vite, Tailwind CSS 3, and dnd-kit.
+**Enterprise-Grade Issue Tracking System**  
+Engineered for Velocity — Strict Role-Based Governance, Zero Bloat.
+Built with Java 17, Spring Boot 3.2, PostgreSQL, Flyway, React 18, Vite, Tailwind CSS 3, and dnd-kit.
 
 ---
 
